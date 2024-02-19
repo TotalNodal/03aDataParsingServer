@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "pythonserver"
+version = "0.1.0"
+description = ""
+authors = ["TotalNodal <150134390+TotalNodal@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+uvicorn = "0"
+fastapi = "^0.109.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
