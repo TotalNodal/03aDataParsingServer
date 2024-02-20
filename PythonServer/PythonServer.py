@@ -1,34 +1,26 @@
-import socket
-import json
-import base64
+from flask import Flask, request, jsonify
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('127.0.0.1', 8000))
-server.listen()
+app = Flask(__name__)
 
-print("Python Server is waiting for connections...")
+@app.route('/receive', methods=['POST'])
+def receive_json():
+    try:
+        # Receive JSON data from the sender
+        json_data = request.get_json()
 
-while True:
-    client, address = server.accept()
-    print(f"Connection from {address}")
+        # Decode the JSON data to a Python dictionary
+        decoded_data = json_data
 
-    # Simulate a customer object
-    customer_object = {
-        'Name': 'John Doe',
-        'Address': '123 Main Street'
-    }
+        # Print the decoded data
+        print("Received JSON data:")
+        print(decoded_data)
 
-    # Serialize the customer object to JSON
-    json_data = json.dumps(customer_object)
+        # You can now use the decoded_data as needed
 
-    # Encode the JSON data using base64
-    encoded_data = base64.b64encode(json_data.encode('utf-8'))
-    
-    # Print the encoded message to the console
-    print(f"Encoded Message: {encoded_data.decode('utf-8')}")
+        return jsonify({"status": "success"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
 
-    # Send the encoded data to the C# server
-    client.send(encoded_data)
-
-    # Close the connection
-    client.close()
+if __name__ == '__main__':
+    # Run the Flask application on port 5001
+    app.run(port=5001)
